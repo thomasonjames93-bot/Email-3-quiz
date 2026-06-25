@@ -223,7 +223,7 @@
   <script>
     const questions = [
       {
-        title: "1. Prepare / 準備する",
+        title: "1. 資料について",
         task: "資料を準備します。",
         japanese: "日本語に合う一番よい英語を選びましょう。",
         options: [
@@ -232,10 +232,10 @@
           "I will send the document."
         ],
         answer: 1,
-        explanation: "“Prepare” means 準備する. The best answer is “I will prepare the document.”"
+        explanation: "“I will prepare the document.” means 資料を準備します。"
       },
       {
-        title: "2. Confirm / 確認する",
+        title: "2. 詳細について",
         task: "詳細を確認します。",
         japanese: "日本語に合う一番よい英語を選びましょう。",
         options: [
@@ -244,10 +244,10 @@
           "I will confirm the details."
         ],
         answer: 2,
-        explanation: "“Confirm” means 確認する. The best answer is “I will confirm the details.”"
+        explanation: "“I will confirm the details.” means 詳細を確認します。"
       },
       {
-        title: "3. Update / 更新する",
+        title: "3. ファイルについて",
         task: "ファイルを更新します。",
         japanese: "日本語に合う一番よい英語を選びましょう。",
         options: [
@@ -256,10 +256,10 @@
           "I will arrange the file."
         ],
         answer: 0,
-        explanation: "“Update” means 更新する or 修正する. The best answer is “I will update the file.”"
+        explanation: "“I will update the file.” means ファイルを更新します。"
       },
       {
-        title: "4. By Friday / 金曜日までに",
+        title: "4. レポートについて",
         task: "金曜日までにレポートを送ります。",
         japanese: "日本語に合う一番よい英語を選びましょう。",
         options: [
@@ -271,7 +271,7 @@
         explanation: "“By Friday” means 金曜日までに. The best answer is “I will send the report by Friday.”"
       },
       {
-        title: "5. Updated Document / 更新した資料",
+        title: "5. 更新した資料について",
         task: "更新した資料をお送りします。",
         japanese: "日本語に合う一番よい英語を選びましょう。",
         options: [
@@ -280,10 +280,10 @@
           "I will update you the send document."
         ],
         answer: 1,
-        explanation: "“I will send you...” is useful for saying 〜をお送りします."
+        explanation: "“I will send you the updated document.” means 更新した資料をお送りします。"
       },
       {
-        title: "6. Review / 確認する",
+        title: "6. 確認の依頼",
         task: "お時間のあるときにご確認ください。",
         japanese: "日本語に合う一番よい英語を選びましょう。",
         options: [
@@ -292,10 +292,10 @@
           "Please send it when you have time."
         ],
         answer: 0,
-        explanation: "“Please review it when you have time” is a polite way to ask someone to check something."
+        explanation: "“Please review it when you have time.” means お時間のあるときにご確認ください。"
       },
       {
-        title: "7. Let You Know / お知らせする",
+        title: "7. お知らせについて",
         task: "準備ができ次第、お知らせします。",
         japanese: "日本語に合う一番よい英語を選びましょう。",
         options: [
@@ -304,10 +304,10 @@
           "I will let you know when it is ready."
         ],
         answer: 2,
-        explanation: "“I will let you know” means お知らせします."
+        explanation: "“I will let you know when it is ready.” means 準備ができ次第、お知らせします。"
       },
       {
-        title: "8. Arrange / 手配する",
+        title: "8. 会議について",
         task: "会議を手配します。",
         japanese: "日本語に合う一番よい英語を選びましょう。",
         options: [
@@ -316,10 +316,10 @@
           "I will update the meeting."
         ],
         answer: 0,
-        explanation: "“Arrange” means 手配する. The best answer is “I will arrange the meeting.”"
+        explanation: "“I will arrange the meeting.” means 会議を手配します。"
       },
       {
-        title: "9. Follow Up / フォローアップする",
+        title: "9. 来週の対応",
         task: "来週フォローアップします。",
         japanese: "日本語に合う一番よい英語を選びましょう。",
         options: [
@@ -328,10 +328,10 @@
           "I will follow next week up."
         ],
         answer: 1,
-        explanation: "The correct word order is “follow up next week.”"
+        explanation: "“I will follow up next week.” means 来週フォローアップします。"
       },
       {
-        title: "10. Thoughts / 意見",
+        title: "10. 意見について",
         task: "ご意見をお聞かせください。",
         japanese: "日本語に合う一番よい英語を選びましょう。",
         options: [
@@ -340,7 +340,7 @@
           "Please let me know your thoughts."
         ],
         answer: 2,
-        explanation: "“Please let me know your thoughts” is a natural business English phrase."
+        explanation: "“Please let me know your thoughts.” means ご意見をお聞かせください。"
       }
     ];
 
@@ -410,7 +410,7 @@
 
         document.getElementById("nextBtn").classList.remove("hidden");
       } else {
-        feedback.innerHTML = `Try again. もう一度やってみましょう。<br>Hint: Think about the Japanese meaning and choose the most natural business English.`;
+        feedback.innerHTML = `Try again. もう一度やってみましょう。<br>Hint: Read the Japanese sentence carefully and choose the best English translation.`;
         feedback.className = "feedback incorrect";
       }
     }
