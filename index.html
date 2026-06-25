@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Future Actions Quiz</title>
+
+  <style>
+    :root {
+      --navy: #06214a;
+      --teal: #3fa7a9;
+      --light-teal: #e8f6f6;
+      --border: #d9e2ec;
+      --yellow: #ffd400;
+      --white: #ffffff;
+      --gray: #f6f8fb;
+      --success: #16803c;
+      --error: #c0392b;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: var(--gray);
+      color: var(--navy);
+      margin: 0;
+      padding: 30px;
+    }
+
+    .quiz-container {
+      max-width: 950px;
+      margin: 0 auto;
+      background: var(--white);
+      border: 2px solid var(--navy);
+      border-radius: 10px;
+      padding: 28px;
+    }
+
+    h1 {
+      margin-top: 0;
+      font-size: 24px;
+      color: var(--navy);
+      letter-spacing: 1px;
+    }
+
+    .instructions {
+      font-style: italic;
+      font-size: 18px;
+      margin-bottom: 6px;
+    }
+
+    .japanese {
+      font-size: 16px;
+      margin-bottom: 28px;
+    }
+
+    .progress {
+      margin-bottom: 16px;
+      font-weight: bold;
+      color: var(--teal);
+    }
+
+    .question-card {
+      border: 1.5px solid var(--navy);
+      border-radius: 8px;
+      padding: 22px;
+      margin-bottom: 24px;
+      background: #ffffff;
+    }
+
+    .question-title {
+      font-size: 19px;
+      font-weight: bold;
+      margin-bottom: 14px;
+      color: var(--navy);
+    }
+
+    .task-text {
+      font-size: 17px;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+
+    .translation {
+      font-size: 16px;
+      margin-bottom: 22px;
+    }
+
+    .answer-options {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+
+    .option {
+      border: 1.5px solid var(--navy);
+      border-radius: 6px;
+      padding: 14px;
+      background: var(--white);
+      cursor: pointer;
+      font-size: 17px;
+      transition: 0.2s;
+    }
+
+    .option:hover {
+      background: var(--light-teal);
+      border-color: var(--teal);
+    }
+
+    .option.selected {
+      background: var(--teal);
+      color: white;
+      border-color: var(--teal);
+    }
+
+    .button-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border: none;
+      border-radius: 5px;
+      padding: 12px 22px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .check-btn {
+      background: var(--yellow);
+      color: var(--navy);
+    }
+
+    .reset-btn {
+      background: var(--navy);
+      color: white;
+    }
+
+    .next-btn {
+      background: var(--teal);
+      color: white;
+    }
+
+    .feedback {
+      margin-top: 16px;
+      font-size: 17px;
+      font-weight: bold;
+      line-height: 1.6;
+    }
+
+    .correct {
+      color: var(--success);
+    }
+
+    .incorrect {
+      color: var(--error);
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .final-card {
+      border: 2px solid var(--teal);
+      border-radius: 8px;
+      padding: 22px;
+      background: var(--light-teal);
+      line-height: 1.7;
+      font-size: 17px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="quiz-container">
+    <h1>Translation Quiz: Future Actions</h1>
+
+    <p class="instructions">
+      Choose the best English translation.
+    </p>
+    <p class="japanese">
+      日本語に合う一番よい英語を選びましょう。
+    </p>
+
+    <div id="quizSection">
+      <div class="progress" id="progress"></div>
+
+      <div class="question-card">
+        <div class="question-title" id="questionTitle"></div>
+        <div class="task-text" id="taskText"></div>
+        <div class="translation" id="translation"></div>
+
+        <div class="answer-options" id="answerOptions"></div>
+
+        <div class="button-row">
+          <button class="check-btn" onclick="checkAnswer()">Check Answer / 答え合わせ</button>
+          <button class="reset-btn" onclick="resetAnswer()">Reset / やり直す</button>
+          <button class="next-btn hidden" id="nextBtn" onclick="nextQuestion()">Next / 次へ</button>
+        </div>
+
+        <div class="feedback" id="feedback"></div>
+      </div>
+    </div>
+
+    <div id="finalSection" class="hidden">
+      <div class="final-card">
+        <h2>Quiz Complete!</h2>
+        <p>よくできました！</p>
+        <p>
+          You have practiced English phrases for explaining future actions in a business email.
+        </p>
+        <p>
+          ビジネスメールで今後の対応を伝える英語表現を練習しました。
+        </p>
+        <p id="scoreText"></p>
+        <button class="next-btn" onclick="restartQuiz()">Try Again / もう一度</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        title: "1. Prepare / 準備する",
+        task: "資料を準備します。",
+        japanese: "日本語に合う一番よい英語を選びましょう。",
+        options: [
+          "I will review the document.",
+          "I will prepare the document.",
+          "I will send the document."
+        ],
+        answer: 1,
+        explanation: "“Prepare” means 準備する. The best answer is “I will prepare the document.”"
+      },
+      {
+        title: "2. Confirm / 確認する",
+        task: "詳細を確認します。",
+        japanese: "日本語に合う一番よい英語を選びましょう。",
+        options: [
+          "I will prepare the details.",
+          "I will arrange the details.",
+          "I will confirm the details."
+        ],
+        answer: 2,
+        explanation: "“Confirm” means 確認する. The best answer is “I will confirm the details.”"
+      },
+      {
+        title: "3. Update / 更新する",
+        task: "ファイルを更新します。",
+        japanese: "日本語に合う一番よい英語を選びましょう。",
+        options: [
+          "I will update the file.",
+          "I will contact the file.",
+          "I will arrange the file."
+        ],
+        answer: 0,
+        explanation: "“Update” means 更新する or 修正する. The best answer is “I will update the file.”"
+      },
+      {
+        title: "4. By Friday / 金曜日までに",
+        task: "金曜日までにレポートを送ります。",
+        japanese: "日本語に合う一番よい英語を選びましょう。",
+        options: [
+          "I will prepare Friday by the report.",
+          "I will check the report by Friday.",
+          "I will send the report by Friday."
+        ],
+        answer: 2,
+        explanation: "“By Friday” means 金曜日までに. The best answer is “I will send the report by Friday.”"
+      },
+      {
+        title: "5. Updated Document / 更新した資料",
+        task: "更新した資料をお送りします。",
+        japanese: "日本語に合う一番よい英語を選びましょう。",
+        options: [
+          "I will review the updated meeting.",
+          "I will send you the updated document.",
+          "I will update you the send document."
+        ],
+        answer: 1,
+        explanation: "“I will send you...” is useful for saying 〜をお送りします."
+      },
+      {
+        title: "6. Review / 確認する",
+        task: "お時間のあるときにご確認ください。",
+        japanese: "日本語に合う一番よい英語を選びましょう。",
+        options: [
+          "Please review it when you have time.",
+          "Please prepare it when you have time.",
+          "Please send it when you have time."
+        ],
+        answer: 0,
+        explanation: "“Please review it when you have time” is a polite way to ask someone to check something."
+      },
+      {
+        title: "7. Let You Know / お知らせする",
+        task: "準備ができ次第、お知らせします。",
+        japanese: "日本語に合う一番よい英語を選びましょう。",
+        options: [
+          "I will know you when it is ready.",
+          "I will send you when it is ready.",
+          "I will let you know when it is ready."
+        ],
+        answer: 2,
+        explanation: "“I will let you know” means お知らせします."
+      },
+      {
+        title: "8. Arrange / 手配する",
+        task: "会議を手配します。",
+        japanese: "日本語に合う一番よい英語を選びましょう。",
+        options: [
+          "I will arrange the meeting.",
+          "I will confirm the meeting.",
+          "I will update the meeting."
+        ],
+        answer: 0,
+        explanation: "“Arrange” means 手配する. The best answer is “I will arrange the meeting.”"
+      },
+      {
+        title: "9. Follow Up / フォローアップする",
+        task: "来週フォローアップします。",
+        japanese: "日本語に合う一番よい英語を選びましょう。",
+        options: [
+          "I will contact up next week.",
+          "I will follow up next week.",
+          "I will follow next week up."
+        ],
+        answer: 1,
+        explanation: "The correct word order is “follow up next week.”"
+      },
+      {
+        title: "10. Thoughts / 意見",
+        task: "ご意見をお聞かせください。",
+        japanese: "日本語に合う一番よい英語を選びましょう。",
+        options: [
+          "Please tell me your schedule.",
+          "Please review your thoughts.",
+          "Please let me know your thoughts."
+        ],
+        answer: 2,
+        explanation: "“Please let me know your thoughts” is a natural business English phrase."
+      }
+    ];
+
+    let currentQuestion = 0;
+    let selectedAnswer = null;
+    let score = 0;
+    let answeredCorrectly = false;
+
+    function loadQuestion() {
+      const q = questions[currentQuestion];
+
+      document.getElementById("progress").textContent =
+        `Question ${currentQuestion + 1} of ${questions.length}`;
+
+      document.getElementById("questionTitle").textContent = q.title;
+      document.getElementById("taskText").textContent = q.task;
+      document.getElementById("translation").textContent = q.japanese;
+
+      selectedAnswer = null;
+      answeredCorrectly = false;
+
+      document.getElementById("feedback").textContent = "";
+      document.getElementById("feedback").className = "feedback";
+      document.getElementById("nextBtn").classList.add("hidden");
+
+      const answerOptions = document.getElementById("answerOptions");
+      answerOptions.innerHTML = "";
+
+      q.options.forEach((option, index) => {
+        const div = document.createElement("div");
+        div.className = "option";
+        div.textContent = `${String.fromCharCode(65 + index)}. ${option}`;
+        div.onclick = () => selectAnswer(index, div);
+        answerOptions.appendChild(div);
+      });
+    }
+
+    function selectAnswer(index, element) {
+      selectedAnswer = index;
+
+      document.querySelectorAll(".option").forEach(option => {
+        option.classList.remove("selected");
+      });
+
+      element.classList.add("selected");
+      document.getElementById("feedback").textContent = "";
+    }
+
+    function checkAnswer() {
+      const q = questions[currentQuestion];
+      const feedback = document.getElementById("feedback");
+
+      if (selectedAnswer === null) {
+        feedback.textContent = "Please choose an answer. 答えを選んでください。";
+        feedback.className = "feedback incorrect";
+        return;
+      }
+
+      if (selectedAnswer === q.answer) {
+        feedback.innerHTML = `Correct! よくできました！<br>${q.explanation}`;
+        feedback.className = "feedback correct";
+
+        if (!answeredCorrectly) {
+          score++;
+          answeredCorrectly = true;
+        }
+
+        document.getElementById("nextBtn").classList.remove("hidden");
+      } else {
+        feedback.innerHTML = `Try again. もう一度やってみましょう。<br>Hint: Think about the Japanese meaning and choose the most natural business English.`;
+        feedback.className = "feedback incorrect";
+      }
+    }
+
+    function resetAnswer() {
+      selectedAnswer = null;
+      document.getElementById("feedback").textContent = "";
+      document.getElementById("nextBtn").classList.add("hidden");
+
+      document.querySelectorAll(".option").forEach(option => {
+        option.classList.remove("selected");
+      });
+    }
+
+    function nextQuestion() {
+      currentQuestion++;
+
+      if (currentQuestion >= questions.length) {
+        showFinalSection();
+      } else {
+        loadQuestion();
+      }
+    }
+
+    function showFinalSection() {
+      document.getElementById("quizSection").classList.add("hidden");
+      document.getElementById("finalSection").classList.remove("hidden");
+
+      document.getElementById("scoreText").textContent =
+        `Your score: ${score} / ${questions.length}`;
+    }
+
+    function restartQuiz() {
+      currentQuestion = 0;
+      selectedAnswer = null;
+      score = 0;
+      answeredCorrectly = false;
+
+      document.getElementById("finalSection").classList.add("hidden");
+      document.getElementById("quizSection").classList.remove("hidden");
+
+      loadQuestion();
+    }
+
+    loadQuestion();
+  </script>
+</body>
+</html>
